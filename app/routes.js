@@ -14,7 +14,5 @@ router.get('/events', eventController.showEvents);
 // Remplir les évènements
 router.get('/events/seed', eventController.seedEvents);
 
-//
-
 // Afficher un évènement unique
 router.get('/events/:slug', eventController.showSingleEvent);

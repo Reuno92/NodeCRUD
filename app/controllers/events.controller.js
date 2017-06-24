@@ -3,7 +3,9 @@ const Event = require('../models/event');
 module.exports = {
     showEvents : showEvents,
     showSingleEvent : showSingleEvent,
-    seedEvents : seedEvents
+    seedEvents : seedEvents,
+    showCreate : showCreate,
+    processCreate : processCreate
 };
 
 /**
@@ -61,3 +63,30 @@ function seedEvents(req, res) {
     res.send('Base de donnée rempli');
 }
 
+/**
+ * Afficher la creation formulaire
+*/
+function showCreate(req, res) {
+    res.render('pages/create');
+}
+
+/**
+ *   Traiter le formulaire de création
+ */
+function processCreate(req, res) {
+    //Créatiion d'un nouvel évènement
+    const event = new Event({
+        name : req.body.name,
+        description: req.body.description
+    });
+
+    // sauvegarder l'évènement
+    event.save(function(err){
+        if (err) {
+            throw err;
+        }
+
+        // redirection vers l'évènement nouvellement crée
+        res.redirect(`/events/${event.slug}`);
+    });
+}

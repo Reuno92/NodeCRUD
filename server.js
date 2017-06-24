@@ -7,6 +7,7 @@ const express = require('express'),
     port = process.env.PORT || 8080,
     expressLayouts = require('express-ejs-layouts'),
     mongoose = require('mongoose');
+    bodyParser = require('body-parser');
 
 // Configuration des dépendances ====================
 // appel d'express où sont situer les assets statique
@@ -18,6 +19,9 @@ app.use(expressLayouts);
 
 //connection à unr base de données
 mongoose.connect(process.env.DB_URI);
+
+//utilisation du module body parser attraper les info du formulaire
+app.use(bodyParser.urlencoded({ extended: true}));
 
 // Modification des routes =========================
 app.use(require('./app/routes'));

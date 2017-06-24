@@ -18,7 +18,7 @@ eventSchema.pre('save', function(next) {
     next();
 });
 
-// Crée the model
+// Crée le model
 const eventModel = mongoose.model('Event', eventSchema);
 
 // Export du modèle

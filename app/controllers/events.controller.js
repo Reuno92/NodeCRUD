@@ -6,6 +6,12 @@ module.exports = {
     showEvents : function(req, res) {
 
         //creation mini-event.
+        const events = [
+            { name : 'Basketball', slug : 'basketball', description : 'Lancer dans le panier' },
+            { name : 'Piscine', slug : 'piscine', description : 'Nager plus vite qu\'un poisson' },
+            { name : 'Musculation', slug : 'musculation', description : 'Lever des choses lourdes' }
+        ];
+
 
         //retourne une vue avec des données.
         res.render('pages/events', { events : events });
@@ -31,7 +37,7 @@ module.exports = {
 
         // utilisé le model d'évènement pour insérer/sauvegarder
         Event.remove({}, function(){
-            for (event of events) {
+            for (event in events) {
                 var newEvent = new Event(event);
                 newEvent.save();
             }

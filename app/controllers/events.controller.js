@@ -9,7 +9,7 @@ module.exports = {
 };
 
 /**
- * Montrer tous les évènements
+ *  Montrer tous les évènements
  */
 function showEvents(req, res) {
     //creation mini-event.
@@ -35,7 +35,10 @@ function showSingleEvent (req, res) {
               res.send('Events not found!');
           }
 
-          res.render('pages/single', { event : event} );
+          res.render('pages/single', {
+              event   : event,
+              success : req.flash('success')
+          });
       });
 }
 
@@ -64,8 +67,8 @@ function seedEvents(req, res) {
 }
 
 /**
- * Afficher la creation formulaire
-*/
+ *   Afficher la creation formulaire
+ */
 function showCreate(req, res) {
     res.render('pages/create');
 }
@@ -74,19 +77,22 @@ function showCreate(req, res) {
  *   Traiter le formulaire de création
  */
 function processCreate(req, res) {
-    //Créatiion d'un nouvel évènement
+    // Créatiion d'un nouvel évènement
     const event = new Event({
         name : req.body.name,
         description: req.body.description
     });
 
-    // sauvegarder l'évènement
+    // Sauvegarder l'évènement
     event.save(function(err){
         if (err) {
             throw err;
         }
 
-        // redirection vers l'évènement nouvellement crée
+        // Mutateur un message flash de succès
+        req.flash('success', 'Evènement crée avec succès !');
+
+        // Redirection vers l'évènement nouvellement crée
         res.redirect(`/events/${event.slug}`);
     });
 }

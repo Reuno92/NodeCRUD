@@ -11,7 +11,7 @@ const eventSchema = new Schema({
     description: String
 });
 
-//middleware ------
+//middleware -------------------------------------------
 // assurer que le slug est crée à partir du nom
 eventSchema.pre('save', function(next) {
     this.slug = slugify(this.name);

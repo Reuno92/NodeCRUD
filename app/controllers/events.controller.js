@@ -19,7 +19,7 @@ function showEvents(req, res) {
     Event.find({}, (err, events) => {
         if (err) {
             res.status(404);
-            res.send('Events not found!');
+            res.send('Evenement non trouvé !');
         }
 
         // Retourne une vue avec des données.
@@ -38,7 +38,7 @@ function showSingleEvent(req, res) {
         Event.findOne({ slug: req.params.slug }, (err, event) => {
             if (err) {
                 res.status(404);
-                res.send('Event not found!');
+                res.send('Evenement non trouvé !');
             }
 
           //rendu de la page single avec les paramètres event et erreur
@@ -170,7 +170,7 @@ function processEdit(req, res) {
 function deleteEvent(req, res) {
     Event.remove({ slug: req.params.slug }, (err) => {
         // mutateur donnée flash
-        req.flash('success', 'Event deleted!');
+        req.flash('success', 'Evenement supprimer!');
 
         // Redirection vers la page /events
         res.redirect('/events');

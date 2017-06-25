@@ -12,7 +12,7 @@ module.exports = {
 };
 
 /**
- *  Montrer tous les évènements
+ *    Montrer tous les évènements
  */
 function showEvents(req, res) {
     // Creation des évènement.
@@ -31,7 +31,7 @@ function showEvents(req, res) {
 }
 
 /**
- * Affiche un évenement
+ *   Affiche un évenement
  */
 function showSingleEvent(req, res) {
       // Faire un évènement
@@ -50,7 +50,7 @@ function showSingleEvent(req, res) {
 }
 
 /**
- * Remplir la base de données
+ *   Remplir la base de données
  */
 function seedEvents(req, res) {
     // Créer quelques évènements
@@ -118,7 +118,7 @@ function processCreate(req, res) {
 }
 
 /**
- * Afficher le formulaire d'édition
+ *   Afficher le formulaire d'édition
  */
 function showEdit(req, res) {
     Event.findOne({ slug: req.params.slug }, (err, event) => {
@@ -130,7 +130,7 @@ function showEdit(req, res) {
 }
 
 /**
- *  Traitement du formulaire d'édition
+ *   Traitement du formulaire d'édition
  */
 function processEdit(req, res) {
     // information valide

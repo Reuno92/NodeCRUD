@@ -20,7 +20,7 @@ router.post('/events/create', eventsController.processCreate);
 
 // Editer un évènement
 router.get('/events/:slug/edit', eventsController.showEdit);
-router.post('/events/:slug', eventsController.processEdit);
+router.post('/events/:slug',     eventsController.processEdit);
 
 //Supprimer un évènement
 router.get('/events/:slug/delete', eventsController.deleteEvent);

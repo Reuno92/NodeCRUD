@@ -70,13 +70,28 @@ function seedEvents(req, res) {
  *   Afficher la creation formulaire
  */
 function showCreate(req, res) {
-    res.render('pages/create');
+    res.render('pages/create', {
+        errors : req.flash('errors')
+    });
 }
 
 /**
  *   Traiter le formulaire de création
  */
 function processCreate(req, res) {
+    // information valide
+    req.checkBody('name', 'Name is required.').notEmpty();
+    req.checkBody('description', 'Description is required.').notEmpty();
+
+    // Si il y a des erreurs, redirection et sauvegarde des erreurs de flash
+    const errors = req.validationErrors();
+    if (errors) {
+        req.flash('errors', errors.map(function(err){
+          err.msg;
+        }));
+        return res.redirect('/events/create');
+    }
+
     // Créatiion d'un nouvel évènement
     const event = new Event({
         name : req.body.name,

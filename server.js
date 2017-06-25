@@ -10,7 +10,8 @@ const express = require('express'),
     bodyParser     = require('body-parser'),
     session        = require('express-session'),
     cookieParser   = require('cookie-parser'),
-    flash          = require('connect-flash');
+    flash          = require('connect-flash'),
+    validator      = require('express-validator');
 
 // Configuration des dépendances ============================
 // Mutateur session et cookie parser
@@ -33,8 +34,9 @@ app.use(expressLayouts);
 // Connection à une base de données
 mongoose.connect(process.env.DB_URI);
 
-// Utilisation du module body parser attraper les info du formulaire
+// Utilisation du module body parser pour attraper les info du formulaire
 app.use(bodyParser.urlencoded({ extended: true}));
+app.use(validator());
 
 // Modification des routes ======================================
 app.use(require('./app/routes'));

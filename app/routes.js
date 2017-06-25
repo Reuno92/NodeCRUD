@@ -23,7 +23,7 @@ router.get('/events/:slug/edit', eventController.showEdit);
 router.post('/events/:slug', eventController.processEdit);
 
 //Supprimer un évènement
-
+router.get('/events/:slug/delete', eventController.deleteEvent);
 
 // Afficher un évènement unique
-router.get('/events/:slug', eventController.showSingleEvent);
+router.get('/events/', eventController.showSingleEvent);

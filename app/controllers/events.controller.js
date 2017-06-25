@@ -7,7 +7,8 @@ module.exports = {
     showCreate      : showCreate,
     processCreate   : processCreate,
     showEdit        : showEdit,
-    processEdit     : processEdit
+    processEdit     : processEdit,
+    deleteEvent     : deleteEvent
 };
 
 /**
@@ -169,3 +170,15 @@ function processEdit(req, res) {
     });
 }
 
+/**
+ *   Suppression d'un évènement
+ */
+function deleteEvent(req, res) {
+    Event.remove({ slug: req.params.slug }, (err) => {
+        // mutateur donnée flash
+        req.flash('success', 'Event deleted!');
+
+        // Redirection vers la page /events
+        res.redirect('/events');
+    });
+}

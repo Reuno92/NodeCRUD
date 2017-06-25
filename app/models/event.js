@@ -12,7 +12,7 @@ const eventSchema = new Schema({
 });
 
 //middleware -------------------------------------------
-// assurer que le slug est crée à partir du nom
+// Assurer que le slug est crée à partir du nom
 eventSchema.pre('save', function(next) {
     this.slug = slugify(this.name);
     next();
@@ -24,7 +24,7 @@ const eventModel = mongoose.model('Event', eventSchema);
 // Export du modèle
 module.exports = eventModel;
 
-//function de slugifié un nom
+// Function de slugifié un nom
 function slugify(text) {
     return text.toString().toLowerCase()
         .replace("/\s+/9", '-')       // remplace les espaces avec un tiret

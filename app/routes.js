@@ -2,28 +2,28 @@
 const express = require('express'),
     router = express.Router(),
     mainController = require('./controllers/main.controller');
-    eventController = require('./controllers/events.controller');
+    eventsController = require('./controllers/events.controller');
 
 // router exportation
 module.exports = router;
 
 // Définir les routes
-router.get('/',       mainController.showHome);
-router.get('/events', eventController.showEvents);
+router.get('/',       mainController.showHome);     // Route principale
+router.get('/events', eventsController.showEvents); // Route évènements
 
 // Remplir les évènements
-router.get('/events/seed', eventController.seedEvents);
+router.get('/events/seed', eventsController.seedEvents);
 
 // Créer un événement
-router.get('/events/create',  eventController.showCreate);
-router.post('/events/create', eventController.processCreate);
+router.get('/events/create',  eventsController.showCreate);
+router.post('/events/create', eventsController.processCreate);
 
 // Editer un évènement
-router.get('/events/:slug/edit', eventController.showEdit);
-router.post('/events/:slug', eventController.processEdit);
+router.get('/events/:slug/edit', eventsController.showEdit);
+router.post('/events/:slug', eventsController.processEdit);
 
 //Supprimer un évènement
-router.get('/events/:slug/delete', eventController.deleteEvent);
+router.get('/events/:slug/delete', eventsController.deleteEvent);
 
 // Afficher un évènement unique
-router.get('/events/', eventController.showSingleEvent);
+router.get('/events/:slug', eventsController.showSingleEvent);

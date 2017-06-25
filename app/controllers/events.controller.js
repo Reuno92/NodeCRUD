@@ -15,8 +15,8 @@ module.exports = {
  *  Montrer tous les évènements
  */
 function showEvents(req, res) {
-    // Creation mini-event.
-    Event.find({}, function(err, events) {
+    // Creation des évènement.
+    Event.find({}, (err, events) => {
         if (err) {
             res.status(404);
             res.send('Events not found!');
@@ -24,8 +24,8 @@ function showEvents(req, res) {
 
         // Retourne une vue avec des données.
         res.render('pages/events', {
-            events : events,
-            success : req.flash('success')
+            events: events,
+            success: req.flash('success')
         });
     });
 }
@@ -33,13 +33,13 @@ function showEvents(req, res) {
 /**
  * Affiche un évenement
  */
-function showSingleEvent (req, res) {
+function showSingleEvent(req, res) {
       // Faire un évènement
-      Event.findOne({ slug : req.params.slug}, function(err, event){
-          if (err) {
-              res.status(404);
-              res.send('Events not found!');
-          }
+        Event.findOne({ slug: req.params.slug }, (err, event) => {
+            if (err) {
+                res.status(404);
+                res.send('Event not found!');
+            }
 
           //rendu de la page single avec les paramètres event et erreur
           res.render('pages/single', {
@@ -62,8 +62,8 @@ function seedEvents(req, res) {
     ];
 
     // Utilisé le model d'évènement pour insérer/sauvegarder
-    Event.remove({}, function(){
-        for (event in events) {
+    Event.remove({}, () => {
+        for (event of events) {
             var newEvent = new Event(event);
             newEvent.save();
         }
@@ -94,9 +94,7 @@ function processCreate(req, res) {
     // Si il y a des erreurs, redirection et sauvegarde des erreurs de flash
     const errors = req.validationErrors();
     if (errors) {
-        req.flash('errors', errors.map(function(err){
-          err.msg;
-        }));
+        req.flash('errors', errors.map(err => err.msg));
         return res.redirect('/events/create');
     }
 
@@ -107,10 +105,9 @@ function processCreate(req, res) {
     });
 
     // Sauvegarder l'évènement
-    event.save(function(err){
-        if (err) {
+    event.save((err) => {
+        if (err)
             throw err;
-        }
 
         // Mutateur un message flash de succès
         req.flash('success', 'Evènement crée avec succès !');
@@ -124,10 +121,10 @@ function processCreate(req, res) {
  * Afficher le formulaire d'édition
  */
 function showEdit(req, res) {
-    Event.findOne({slug: req.params.slug}, function(err, event){
+    Event.findOne({ slug: req.params.slug }, (err, event) => {
         res.render('pages/edit', {
-            event : event,
-            errors : req.flash('errors')
+            event: event,
+            errors: req.flash('errors')
         });
     });
 }
@@ -143,23 +140,20 @@ function processEdit(req, res) {
     // Si il y a des erreurs, redirection et sauvegarde des erreurs de flash
     const errors = req.validationErrors();
     if (errors) {
-        req.flash('errors', errors.map(function(err){
-            err.msg;
-        }));
+        req.flash('errors', errors.map(err => err.msg));
         return res.redirect(`/events/${req.params.slug}/edit`);
     }
 
     // Trouver l'évènement en cours
-    Event.findOne({ slug : req.params.slug }, function(err, event) {
+    Event.findOne({ slug: req.params.slug }, (err, event) => {
 
         // Mise à jour de l'évènement
         event.name = req.body.name;
         event.description = req.body.description;
 
-        event.save(function(err) {
-            if (err) {
-                throw err
-            }
+        event.save((err) => {
+            if (err)
+                throw err;
 
             // Message de succès avec flash
             req.flash('success', 'Modification de l\'évènement avec succès');

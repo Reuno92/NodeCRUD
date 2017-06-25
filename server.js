@@ -26,7 +26,7 @@ app.use(flash());
 
 // Appel d'express où sont situer les assets statique
     // Echec du static public, mais fonctionne avec create.react.app
-app.use(express.static(__dirname + 'public'));
+app.use(express.static(__dirname + '/public'));
 
 // Modification ejs pour le moteur de templating
 app.set('view engine', 'ejs');
@@ -43,7 +43,6 @@ app.use(validator());
 app.use(require('./app/routes'));
 
 // Démarrage du serveur =========================================
-app.listen(port, function() {
-    console.log(`Ecoute du serveur sur http://localhost:${port}`);
+app.listen(port, () => {
+    console.log(`En écoute du serveur sur http://localhost:${port}`);
 });
-

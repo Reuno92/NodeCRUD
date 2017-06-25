@@ -15,7 +15,10 @@
       <tr>
         <td><%= event.name %></td>
         <td><%= event.description %></td>
-        <td><a href="/events/<%= event.slug %>" class="btn btn-sm btn-primary">View</a></td>
+        <td>
+            <a href="/events/<%= event.slug %>" class="btn btn-sm btn-primary">Voir</a>
+            <a href="/events/<%= event.slug %>/edit" class="btn btn-sm btn-primary">Modifier</a>
+        </td>
       </tr>
     <% } %>
   </tbody>

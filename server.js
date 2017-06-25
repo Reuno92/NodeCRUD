@@ -25,6 +25,7 @@ app.use(session({
 app.use(flash());
 
 // Appel d'express où sont situer les assets statique
+    // Echec du static public, mais fonctionne avec create.react.app
 app.use(express.static(__dirname + 'public'));
 
 // Modification ejs pour le moteur de templating

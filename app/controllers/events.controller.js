@@ -1,26 +1,31 @@
 const Event = require('../models/event');
 
 module.exports = {
-    showEvents : showEvents,
+    showEvents      : showEvents,
     showSingleEvent : showSingleEvent,
-    seedEvents : seedEvents,
-    showCreate : showCreate,
-    processCreate : processCreate
+    seedEvents      : seedEvents,
+    showCreate      : showCreate,
+    processCreate   : processCreate,
+    showEdit        : showEdit,
+    processEdit     : processEdit
 };
 
 /**
  *  Montrer tous les évènements
  */
 function showEvents(req, res) {
-    //creation mini-event.
+    // Creation mini-event.
     Event.find({}, function(err, events) {
         if (err) {
             res.status(404);
             res.send('Events not found!');
         }
 
-        //retourne une vue avec des données.
-        res.render('pages/events', { events : events });
+        // Retourne une vue avec des données.
+        res.render('pages/events', {
+            events : events,
+            success : req.flash('success')
+        });
     });
 }
 
@@ -28,13 +33,14 @@ function showEvents(req, res) {
  * Affiche un évenement
  */
 function showSingleEvent (req, res) {
-      //Faire un évènement
+      // Faire un évènement
       Event.findOne({ slug : req.params.slug}, function(err, event){
           if (err) {
               res.status(404);
               res.send('Events not found!');
           }
 
+          //rendu de la page single avec les paramètres event et erreur
           res.render('pages/single', {
               event   : event,
               success : req.flash('success')
@@ -70,6 +76,7 @@ function seedEvents(req, res) {
  *   Afficher la creation formulaire
  */
 function showCreate(req, res) {
+    // Rendu de la page Create avec le paramètre erreur
     res.render('pages/create', {
         errors : req.flash('errors')
     });
@@ -80,8 +87,8 @@ function showCreate(req, res) {
  */
 function processCreate(req, res) {
     // information valide
-    req.checkBody('name', 'Name is required.').notEmpty();
-    req.checkBody('description', 'Description is required.').notEmpty();
+    req.checkBody('name', 'Nom de l\'évènement est requis.').notEmpty();
+    req.checkBody('description', 'Description de l\'évènement est requis.').notEmpty();
 
     // Si il y a des erreurs, redirection et sauvegarde des erreurs de flash
     const errors = req.validationErrors();
@@ -111,3 +118,54 @@ function processCreate(req, res) {
         res.redirect(`/events/${event.slug}`);
     });
 }
+
+/**
+ * Afficher le formulaire d'édition
+ */
+function showEdit(req, res) {
+    Event.findOne({slug: req.params.slug}, function(err, event){
+        res.render('pages/edit', {
+            event : event,
+            errors : req.flash('errors')
+        });
+    });
+}
+
+/**
+ *  Traitement du formulaire d'édition
+ */
+function processEdit(req, res) {
+    // information valide
+    req.checkBody('name', 'Nom de l\'évènement est requis.').notEmpty();
+    req.checkBody('description', 'Description de l\'évènement est requis.').notEmpty();
+
+    // Si il y a des erreurs, redirection et sauvegarde des erreurs de flash
+    const errors = req.validationErrors();
+    if (errors) {
+        req.flash('errors', errors.map(function(err){
+            err.msg;
+        }));
+        return res.redirect(`/events/${req.params.slug}/edit`);
+    }
+
+    // Trouver l'évènement en cours
+    Event.findOne({ slug : req.params.slug }, function(err, event) {
+
+        // Mise à jour de l'évènement
+        event.name = req.body.name;
+        event.description = req.body.description;
+
+        event.save(function(err) {
+            if (err) {
+                throw err
+            }
+
+            // Message de succès avec flash
+            req.flash('success', 'Modification de l\'évènement avec succès');
+
+            // Redirection vers la page events
+            res.redirect('/events');
+        });
+    });
+}
+
